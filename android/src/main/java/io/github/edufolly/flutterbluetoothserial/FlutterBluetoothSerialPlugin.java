@@ -140,16 +140,7 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
 
                                         Log.d(TAG, handlerResult.toString());
                                         if (handlerResult instanceof String) {
-                                            final EditText input = new EditText(activity);
-                                            new AlertDialog.Builder(activity)
-                                                    .setTitle("Bluetooth Pairing Request")
-                                                    .setMessage("Enter PIN for device ")
-                                                    .setView(input)
-                                                    .setPositiveButton("OK", (dialog, which) -> {
-                                                        String pin = input.getText().toString();
-                                                    })
-                                                    .setNegativeButton("Cancel", null)
-                                                    .show();
+
 
 //                                            try {
 //                                                final String passkeyString = (String) handlerResult;
@@ -165,6 +156,16 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
 //                                            }
                                         } else {
                                             Log.d(TAG, "Manual pin pairing in progress");
+                                            final EditText input = new EditText(activity);
+                                            new AlertDialog.Builder(activity)
+                                                    .setTitle("Bluetooth Pairing Request")
+                                                    .setMessage("Enter PIN for device ")
+                                                    .setView(input)
+                                                    .setPositiveButton("OK", (dialog, which) -> {
+                                                        String pin = input.getText().toString();
+                                                    })
+                                                    .setNegativeButton("Cancel", null)
+                                                    .show();
                                            // ActivityCompat.startActivity(activity, intent, null);
                                         }
                                         broadcastResult.finish();
