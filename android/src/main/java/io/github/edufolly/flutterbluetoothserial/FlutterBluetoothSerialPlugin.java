@@ -116,8 +116,6 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                         final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                         final int pairingVariant = intent.getIntExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, BluetoothDevice.ERROR);
                         Log.d(TAG, "Pairing request (variant " + pairingVariant + ") incoming from " + device.getAddress());
-                        android.widget.Toast.makeText(MainActivity.this, "테스트 위젯", Toast.LENGTH_SHORT).show();
-
                         switch (pairingVariant) {
                             case BluetoothDevice.PAIRING_VARIANT_PIN:
                                 // Simplest method - 4 digit number
@@ -147,9 +145,10 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                             }
                                         } else {
                                             Log.d(TAG, "Manual pin pairing in progress");
-                                            //Intent intent = new Intent(BluetoothAdapter.ACTION_PAIRING_REQUEST);
-                                            //intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-                                            //intent.putExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, pairingVariant)
+                                            Intent intent = new Intent(BluetoothAdapter.ACTION_PAIRING_REQUEST);
+                                            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+                                            intent.putExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, pairingVariant)
+
                                             ActivityCompat.startActivity(activity, intent, null);
                                         }
                                         broadcastResult.finish();
@@ -880,6 +879,7 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
 
                     FlutterBluetoothSerialPlugin.this.isPairingRequestHandlerSet = true;
                     final IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST);
+                    filter.
                     //filter.setPriority(pairingRequestReceiverPriority);
                     activeContext.registerReceiver(pairingRequestReceiver, filter);
                     break;
