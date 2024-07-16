@@ -147,7 +147,7 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                             Log.d(TAG, "Manual pin pairing in progress");
                                             Intent intent = new Intent(BluetoothAdapter.ACTION_PAIRING_REQUEST);
                                             intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-                                            intent.putExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, pairingVariant)
+                                            intent.putExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, pairingVariant);
 
                                             ActivityCompat.startActivity(activity, intent, null);
                                         }
