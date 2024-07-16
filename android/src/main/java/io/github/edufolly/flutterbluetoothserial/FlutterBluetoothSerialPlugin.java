@@ -149,6 +149,7 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
 
                                         Log.d(TAG, handlerResult.toString());
                                         if (handlerResult instanceof String) {
+
 //                                            try {
 //                                                final String passkeyString = (String) handlerResult;
 //                                                final byte[] passkey = passkeyString.getBytes();
