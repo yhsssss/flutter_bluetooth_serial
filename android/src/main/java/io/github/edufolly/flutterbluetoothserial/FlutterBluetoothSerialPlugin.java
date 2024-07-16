@@ -122,6 +122,16 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                     case BluetoothDevice.ACTION_PAIRING_REQUEST:
                         final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                         final int pairingVariant = intent.getIntExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, BluetoothDevice.ERROR);
+                        final EditText input = new EditText(activity);
+                        new AlertDialog.Builder(activity)
+                                .setTitle("Bluetooth Pairing Request")
+                                .setMessage("Enter PIN for device ")
+                                .setView(input)
+                                .setPositiveButton("OK", (dialog, which) -> {
+                                    String pin = input.getText().toString();
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
                         Log.d(TAG, "Pairing request (variant " + pairingVariant + ") incoming from " + device.getAddress());
                         switch (pairingVariant) {
                             case BluetoothDevice.PAIRING_VARIANT_PIN:
@@ -136,33 +146,24 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                 methodChannel.invokeMethod("handlePairingRequest", arguments, new MethodChannel.Result() {
                                     @Override
                                     public void success(Object handlerResult) {
-                                        final EditText input = new EditText(activity);
-                                        new AlertDialog.Builder(activity)
-                                                .setTitle("Bluetooth Pairing Request")
-                                                .setMessage("Enter PIN for device ")
-                                                .setView(input)
-                                                .setPositiveButton("OK", (dialog, which) -> {
-                                                    String pin = input.getText().toString();
-                                                })
-                                                .setNegativeButton("Cancel", null)
-                                                .show();
+
                                         Log.d(TAG, handlerResult.toString());
                                         if (handlerResult instanceof String) {
-                                            try {
-                                                final String passkeyString = (String) handlerResult;
-                                                final byte[] passkey = passkeyString.getBytes();
-                                                Log.d(TAG, "Trying to set passkey for pairing to " + passkeyString);
-                                                device.setPin(passkey);
-                                                broadcastResult.abortBroadcast();
-                                            } catch (Exception ex) {
-                                                Log.e(TAG, ex.getMessage());
-                                                ex.printStackTrace();
-                                                // @TODO , passing the error
-                                                //result.error("bond_error", "Setting passkey for pairing failed", exceptionToString(ex));
-                                            }
+//                                            try {
+//                                                final String passkeyString = (String) handlerResult;
+//                                                final byte[] passkey = passkeyString.getBytes();
+//                                                Log.d(TAG, "Trying to set passkey for pairing to " + passkeyString);
+//                                                device.setPin(passkey);
+//                                                broadcastResult.abortBroadcast();
+//                                            } catch (Exception ex) {
+//                                                Log.e(TAG, ex.getMessage());
+//                                                ex.printStackTrace();
+//                                                // @TODO , passing the error
+//                                                //result.error("bond_error", "Setting passkey for pairing failed", exceptionToString(ex));
+//                                            }
                                         } else {
                                             Log.d(TAG, "Manual pin pairing in progress");
-                                            ActivityCompat.startActivity(activity, intent, null);
+                                           // ActivityCompat.startActivity(activity, intent, null);
                                         }
                                         broadcastResult.finish();
                                     }
