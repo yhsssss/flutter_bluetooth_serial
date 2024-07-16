@@ -156,6 +156,7 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                                         })
                                                         .setNegativeButton("Cancel", null)
                                                         .show();
+
                                                 device.setPin(passkey);
                                                 broadcastResult.abortBroadcast();
                                             } catch (Exception ex) {
