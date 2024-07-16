@@ -12,6 +12,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 
+import android.os.Bundle;
+import android.widget.EditText;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -113,6 +120,18 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case BluetoothDevice.ACTION_PAIRING_REQUEST:
+                        final EditText input = new EditText(this);
+                        new AlertDialog.Builder(this)
+                                .setTitle("Bluetooth Pairing Request")
+                                .setMessage("Enter PIN for device " + device.getName() + ":")
+                                .setView(input)
+                                .setPositiveButton("OK", (dialog, which) -> {
+                                    String pin = input.getText().toString();
+                                    device.setPin(pin.getBytes());
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+
                         final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                         final int pairingVariant = intent.getIntExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, BluetoothDevice.ERROR);
                         Log.d(TAG, "Pairing request (variant " + pairingVariant + ") incoming from " + device.getAddress());
@@ -145,10 +164,6 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                             }
                                         } else {
                                             Log.d(TAG, "Manual pin pairing in progress");
-                                            Intent intent = new Intent(BluetoothAdapter.ACTION_PAIRING_REQUEST);
-                                            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-                                            intent.putExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT, pairingVariant);
-
                                             ActivityCompat.startActivity(activity, intent, null);
                                         }
                                         broadcastResult.finish();
