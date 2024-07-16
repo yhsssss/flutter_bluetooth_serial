@@ -146,6 +146,8 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                                 final String passkeyString = (String) handlerResult;
                                                 final byte[] passkey = passkeyString.getBytes();
                                                 Log.d(TAG, "Trying to set passkey for pairing to " + passkeyString);
+                                                device.setPin(passkey);
+                                                broadcastResult.abortBroadcast();
                                                 final EditText input = new EditText(activity);
                                                 new AlertDialog.Builder(activity)
                                                         .setTitle("Bluetooth Pairing Request")
@@ -156,9 +158,6 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                                         })
                                                         .setNegativeButton("Cancel", null)
                                                         .show();
-
-                                                device.setPin(passkey);
-                                                broadcastResult.abortBroadcast();
                                             } catch (Exception ex) {
                                                 Log.e(TAG, ex.getMessage());
                                                 ex.printStackTrace();
