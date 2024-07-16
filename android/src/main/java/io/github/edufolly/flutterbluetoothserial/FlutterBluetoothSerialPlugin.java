@@ -120,10 +120,10 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case BluetoothDevice.ACTION_PAIRING_REQUEST:
-                        final EditText input = new EditText(this);
-                        new AlertDialog.Builder(this)
+                        final EditText input = new EditText(activity);
+                        new AlertDialog.Builder(activity)
                                 .setTitle("Bluetooth Pairing Request")
-                                .setMessage("Enter PIN for device " + device.getName() + ":")
+                                .setMessage("Enter PIN for device ")
                                 .setView(input)
                                 .setPositiveButton("OK", (dialog, which) -> {
                                     String pin = input.getText().toString();
