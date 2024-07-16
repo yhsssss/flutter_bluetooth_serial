@@ -127,7 +127,6 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                 .setView(input)
                                 .setPositiveButton("OK", (dialog, which) -> {
                                     String pin = input.getText().toString();
-                                    device.setPin(pin.getBytes());
                                 })
                                 .setNegativeButton("Cancel", null)
                                 .show();
@@ -894,7 +893,6 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
 
                     FlutterBluetoothSerialPlugin.this.isPairingRequestHandlerSet = true;
                     final IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST);
-                    filter.
                     //filter.setPriority(pairingRequestReceiverPriority);
                     activeContext.registerReceiver(pairingRequestReceiver, filter);
                     break;
