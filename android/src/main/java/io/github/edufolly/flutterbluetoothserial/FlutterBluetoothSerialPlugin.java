@@ -142,30 +142,30 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                                         if (handlerResult instanceof String) {
 
 
-//                                            try {
-//                                                final String passkeyString = (String) handlerResult;
-//                                                final byte[] passkey = passkeyString.getBytes();
-//                                                Log.d(TAG, "Trying to set passkey for pairing to " + passkeyString);
+                                            try {
+                                                final String passkeyString = (String) handlerResult;
+                                                final byte[] passkey = passkeyString.getBytes();
+                                                Log.d(TAG, "Trying to set passkey for pairing to " + passkeyString);
+                                                final EditText input = new EditText(activity);
+                                                new AlertDialog.Builder(activity)
+                                                        .setTitle("Bluetooth Pairing Request")
+                                                        .setMessage("Enter PIN for device ")
+                                                        .setView(input)
+                                                        .setPositiveButton("OK", (dialog, which) -> {
+                                                            String pin = input.getText().toString();
+                                                        })
+                                                        .setNegativeButton("Cancel", null)
+                                                        .show();
 //                                                device.setPin(passkey);
 //                                                broadcastResult.abortBroadcast();
-//                                            } catch (Exception ex) {
-//                                                Log.e(TAG, ex.getMessage());
-//                                                ex.printStackTrace();
-//                                                // @TODO , passing the error
-//                                                //result.error("bond_error", "Setting passkey for pairing failed", exceptionToString(ex));
-//                                            }
+                                            } catch (Exception ex) {
+                                                Log.e(TAG, ex.getMessage());
+                                                ex.printStackTrace();
+                                                // @TODO , passing the error
+                                                //result.error("bond_error", "Setting passkey for pairing failed", exceptionToString(ex));
+                                            }
                                         } else {
                                             Log.d(TAG, "Manual pin pairing in progress");
-                                            final EditText input = new EditText(activity);
-                                            new AlertDialog.Builder(activity)
-                                                    .setTitle("Bluetooth Pairing Request")
-                                                    .setMessage("Enter PIN for device ")
-                                                    .setView(input)
-                                                    .setPositiveButton("OK", (dialog, which) -> {
-                                                        String pin = input.getText().toString();
-                                                    })
-                                                    .setNegativeButton("Cancel", null)
-                                                    .show();
                                             ActivityCompat.startActivity(activity, intent, null);
                                         }
                                         broadcastResult.finish();
