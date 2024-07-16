@@ -125,26 +125,27 @@ public class FlutterBluetoothSerialPlugin implements FlutterPlugin, ActivityAwar
                         Log.d(TAG, "Pairing request (variant " + pairingVariant + ") incoming from " + device.getAddress());
                         switch (pairingVariant) {
                             case BluetoothDevice.PAIRING_VARIANT_PIN:
-                                // Simplest method - 4 digit number
+                                // Simplest method - 4 ㄴ number
                             {
                                 final BroadcastReceiver.PendingResult broadcastResult = this.goAsync();
 
                                 Map<String, Object> arguments = new HashMap<String, Object>();
                                 arguments.put("address", device.getAddress());
-                                arguments.put("variant", pairingVariant);
-                                final EditText input = new EditText(activity);
-                                new AlertDialog.Builder(activity)
-                                        .setTitle("Bluetooth Pairing Request")
-                                        .setMessage("Enter PIN for device ")
-                                        .setView(input)
-                                        .setPositiveButton("OK", (dialog, which) -> {
-                                            String pin = input.getText().toString();
-                                        })
-                                        .setNegativeButton("Cancel", null)
-                                        .show();
+                                arguments.put("variant", 7);
+
                                 methodChannel.invokeMethod("handlePairingRequest", arguments, new MethodChannel.Result() {
                                     @Override
                                     public void success(Object handlerResult) {
+                                        final EditText input = new EditText(activity);
+                                        new AlertDialog.Builder(activity)
+                                                .setTitle("Bluetooth Pairing Request")
+                                                .setMessage("Enter PIN for device ")
+                                                .setView(input)
+                                                .setPositiveButton("OK", (dialog, which) -> {
+                                                    String pin = input.getText().toString();
+                                                })
+                                                .setNegativeButton("Cancel", null)
+                                                .show();
                                         Log.d(TAG, handlerResult.toString());
                                         if (handlerResult instanceof String) {
                                             try {
